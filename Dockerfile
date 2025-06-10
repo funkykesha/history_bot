@@ -11,13 +11,14 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the application
+# Copy application code
 COPY . .
 
 # Create necessary directories
 RUN mkdir -p exports logs
 
-# Add the current directory to PYTHONPATH
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
 ENV PYTHONPATH=/app
 
 # Run the bot
