@@ -17,5 +17,8 @@ COPY . .
 # Create necessary directories
 RUN mkdir -p exports logs
 
+# Add the current directory to PYTHONPATH
+ENV PYTHONPATH=/app
+
 # Run the bot
-CMD ["python", "src/main.py"] 
+CMD ["python", "-m", "src.main"] 

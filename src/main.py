@@ -1,9 +1,9 @@
 import logging
 import asyncio
 from telegram.ext import Application, CommandHandler, MessageHandler, filters
-from config import BOT_TOKEN, LOG_LEVEL, LOG_FILE, EXPORT_DIR
-from bot.handlers.command_handlers import start_command, help_command, export_command
-from utils.exporters.chat_exporter import ChatExporter
+from src.config import BOT_TOKEN, LOG_LEVEL, LOG_FILE, EXPORT_DIR
+from src.bot.handlers.command_handlers import start_command, help_command, export_command
+from src.utils.exporters.chat_exporter import ChatExporter
 
 # Configure logging
 logging.basicConfig(
