@@ -3,6 +3,7 @@ from telegram import Update
 from telegram.ext import ContextTypes
 from datetime import datetime
 import os
+from src.utils.exporters.chat_exporter import ChatExporter
 
 logger = logging.getLogger(__name__)
 
@@ -51,12 +52,37 @@ async def export_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
             "Это может занять некоторое время."
         )
         
-        # TODO: Implement chat history retrieval
-        # For now, just send a placeholder message
-        await status_message.edit_text(
-            f"✅ Экспорт чата с @{username} завершен!\n"
-            "Функция экспорта находится в разработке."
-        )
+        # Get chat exporter from context
+        chat_exporter = context.bot_data.get('chat_exporter')
+        if not chat_exporter:
+            chat_exporter = ChatExporter(context.bot)
+            context.bot_data['chat_exporter'] = chat_exporter
+        
+        # Export chat
+        filepath = await chat_exporter.export_chat(user.id, username)
+        
+        if filepath and os.path.exists(filepath):
+            # Send the file
+            with open(filepath, 'rb') as f:
+                await update.message.reply_document(
+                    document=f,
+                    filename=os.path.basename(filepath),
+                    caption=f"✅ Экспорт чата с @{username} завершен!"
+                )
+            
+            # Clean up the file
+            os.remove(filepath)
+            
+            # Update status message
+            await status_message.delete()
+        else:
+            await status_message.edit_text(
+                f"❌ Не удалось экспортировать чат с @{username}.\n"
+                "Убедитесь, что:\n"
+                "1. Пользователь существует\n"
+                "2. У вас есть общая история переписки\n"
+                "3. Пользователь не заблокировал бота"
+            )
         
     except Exception as e:
         logger.error(f"Error during export for user {user.id}: {str(e)}")
