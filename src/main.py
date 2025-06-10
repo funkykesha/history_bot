@@ -25,6 +25,10 @@ async def error_handler(update, context):
             'Произошла ошибка при обработке запроса. Пожалуйста, попробуйте позже.'
         )
 
+async def health_check(update: Update, context):
+    """Health check endpoint."""
+    await update.message.reply_text("Bot is healthy!")
+
 async def main():
     """Start the bot."""
     try:
@@ -38,22 +42,32 @@ async def main():
         application.add_handler(CommandHandler("start", start_command))
         application.add_handler(CommandHandler("help", help_command))
         application.add_handler(CommandHandler("export", export_command))
+        application.add_handler(CommandHandler("health", health_check))
         
         # Add error handler
         application.add_error_handler(error_handler)
 
         # Start the Bot
         logger.info("Starting bot...")
+        
+        # Initialize the application
         await application.initialize()
         await application.start()
+        
+        # Start polling
+        logger.info("Bot started successfully!")
         await application.run_polling(allowed_updates=Update.ALL_TYPES)
+        
     except Exception as e:
         logger.error(f"Error in main: {e}", exc_info=True)
         raise
     finally:
         if 'application' in locals():
-            await application.stop()
-            await application.shutdown()
+            try:
+                await application.stop()
+                await application.shutdown()
+            except Exception as e:
+                logger.error(f"Error during shutdown: {e}", exc_info=True)
 
 if __name__ == '__main__':
     try:
@@ -61,4 +75,5 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         logger.info("Bot stopped by user")
     except Exception as e:
-        logger.error(f"Fatal error: {e}", exc_info=True) 
+        logger.error(f"Fatal error: {e}", exc_info=True)
+        exit(1) 
