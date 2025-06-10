@@ -1,0 +1,49 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Project File Structure
+
+## Directory Structure
+
+| Directory | Purpose |
+|-----------|---------|
+| `/src` | Main source code directory |
+| `/src/bot` | Bot-specific code and handlers |
+| `/src/utils` | Utility functions and helpers |
+| `/src/database` | Database models and operations |
+| `/tests` | Unit and integration tests |
+| `/docs` | Project documentation |
+| `/config` | Configuration files |
+| `/logs` | Application logs |
+| `/exports` | Temporary storage for chat exports |
+
+## Main Files
+
+| File | Purpose |
+|------|---------|
+| `main.py` | Application entry point and bot initialization |
+| `config.py` | Configuration management and environment variables |
+| `requirements.txt` | Project dependencies |
+| `README.md` | Project documentation and setup instructions |
+| `.env` | Environment variables (not tracked in git) |
+| `.gitignore` | Git ignore rules |
+| `Dockerfile` | Container configuration for deployment |
+
+## Generated Files Locations
+
+The following directories are designated for generated code:
+
+1. `/src/bot/handlers/` - Bot command and message handlers
+2. `/src/utils/exporters/` - Chat export functionality
+3. `/src/database/migrations/` - Database migration files
+4. `/tests/unit/` - Unit test files
+5. `/tests/integration/` - Integration test files
+
+## File Naming Conventions
+
+- Python files: snake_case (e.g., `chat_exporter.py`)
+- Test files: `test_` prefix (e.g., `test_chat_exporter.py`)
+- Configuration files: lowercase with extension (e.g., `config.yaml`)
+- Documentation: Markdown files with descriptive names

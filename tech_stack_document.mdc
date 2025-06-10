@@ -1,0 +1,29 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Technical Stack Documentation
+
+| Layer | Technology | Version | Purpose | Documentation |
+|-------|------------|---------|---------|---------------|
+| Runtime | Python | 3.11+ | Base programming language for the bot implementation | [Python Docs](mdc:https:/docs.python.org/3) |
+| Bot SDK | python-telegram-bot | 20.7 | High-level interface for Telegram Bot API | [python-telegram-bot Docs](mdc:https:/docs.python-telegram-bot.org) |
+| Database | SQLite | 3.42+ | Lightweight database for storing chat export requests and user preferences | [SQLite Docs](mdc:https:/www.sqlite.org/docs.html) |
+| Deployment | Railway | Latest | Cloud platform for hosting the bot | [Railway Docs](mdc:https:/docs.railway.app) |
+| Linter | Flake8 | 7.0.0 | Python code linter for maintaining code quality | [Flake8 Docs](mdc:https:/flake8.pycqa.org) |
+| Formatter | Black | 24.1.1 | Python code formatter for consistent code style | [Black Docs](mdc:https:/black.readthedocs.io) |
+
+## Additional Dependencies
+
+| Package | Version | Purpose | Documentation |
+|---------|---------|---------|---------------|
+| python-dotenv | 1.0.0 | Environment variable management | [python-dotenv Docs](mdc:https:/pypi.org/project/python-dotenv) |
+| aiofiles | 23.2.1 | Async file operations for handling chat exports | [aiofiles Docs](mdc:https:/pypi.org/project/aiofiles) |
+
+## Development Tools
+
+| Tool | Version | Purpose | Documentation |
+|------|---------|---------|---------------|
+| Git | Latest | Version control | [Git Docs](mdc:https:/git-scm.com/doc) |
+| GitHub | Latest | Code repository and CI/CD | [GitHub Docs](mdc:https:/docs.github.com) |
