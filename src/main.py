@@ -1,7 +1,9 @@
 import logging
 import asyncio
 from telegram.ext import Application, CommandHandler, MessageHandler, filters
-from config import BOT_TOKEN, LOG_LEVEL, LOG_FILE
+from config import BOT_TOKEN, LOG_LEVEL, LOG_FILE, EXPORT_DIR
+from bot.handlers.command_handlers import start_command, help_command, export_command
+from utils.exporters.chat_exporter import ChatExporter
 
 # Configure logging
 logging.basicConfig(
@@ -13,22 +15,6 @@ logging.basicConfig(
     ]
 )
 logger = logging.getLogger(__name__)
-
-async def start(update, context):
-    """Send a message when the command /start is issued."""
-    await update.message.reply_text(
-        'Привет! Я бот для экспорта истории чатов. '
-        'Используйте /export <username> чтобы получить историю переписки.'
-    )
-
-async def help_command(update, context):
-    """Send a message when the command /help is issued."""
-    await update.message.reply_text(
-        'Доступные команды:\n'
-        '/start - Начать работу с ботом\n'
-        '/help - Показать это сообщение\n'
-        '/export <username> - Экспортировать историю чата с указанным пользователем'
-    )
 
 async def error_handler(update, context):
     """Log the error and send a message to the user."""
@@ -43,14 +29,19 @@ def main():
     # Create the Application
     application = Application.builder().token(BOT_TOKEN).build()
 
+    # Initialize chat exporter
+    chat_exporter = ChatExporter(application.bot, EXPORT_DIR)
+    
     # Add handlers
-    application.add_handler(CommandHandler("start", start))
+    application.add_handler(CommandHandler("start", start_command))
     application.add_handler(CommandHandler("help", help_command))
+    application.add_handler(CommandHandler("export", export_command))
     
     # Add error handler
     application.add_error_handler(error_handler)
 
     # Start the Bot
+    logger.info("Starting bot...")
     application.run_polling()
 
 if __name__ == '__main__':
